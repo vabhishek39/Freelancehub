@@ -1,5 +1,6 @@
 import Database from 'better-sqlite3';
 import path from 'path';
+import bcrypt from 'bcryptjs';
 
 const dbPath = path.join(process.cwd(), 'marketplace.db');
 const db = new Database(dbPath);
@@ -58,5 +59,17 @@ db.exec(`
     UNIQUE(client_id, service_id)
   );
 `);
+
+// Seed Admin User
+const adminEmail = 'admin@freelancehub.com';
+const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get(adminEmail);
+
+if (!existingAdmin) {
+  const adminId = crypto.randomUUID();
+  const hashedPassword = bcrypt.hashSync('AdminPassword123!', 10);
+  db.prepare(
+    'INSERT INTO users (id, name, email, password, role) VALUES (?, ?, ?, ?, ?)'
+  ).run(adminId, 'System Admin', adminEmail, hashedPassword, 'admin');
+}
 
 export default db;

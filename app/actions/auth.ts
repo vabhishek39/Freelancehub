@@ -16,6 +16,10 @@ export async function signup(formData: FormData) {
     return { error: 'All fields are required' };
   }
 
+  if (role === 'admin') {
+    return { error: 'Admin signup is not allowed' };
+  }
+
   try {
     const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
     if (existingUser) {

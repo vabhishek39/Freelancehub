@@ -59,7 +59,6 @@ export default function SignupPage() {
                 <SelectContent>
                   <SelectItem value="client">Hire Freelancers (Client)</SelectItem>
                   <SelectItem value="freelancer">Find Work (Freelancer)</SelectItem>
-                  <SelectItem value="admin">Admin (Demo Only)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
